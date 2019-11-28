@@ -19,6 +19,8 @@ import java.util.concurrent.CompletionStage;
 import scala.concurrent.Future;
 import static akka.http.javadsl.server.PathMatchers.segment;
 
+import java.io.IOException;
+
 
 public class AkkaStream{
     public static void main(String[] args) throws IOException {
