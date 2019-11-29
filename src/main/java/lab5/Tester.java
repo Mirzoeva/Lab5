@@ -30,6 +30,9 @@ public class Tester {
                 .map();
     }
 
-    public UrlTest 
+    public UrlTest parseRequest(HttpRequest request){
+        
+
+    }
 
 }
