@@ -15,7 +15,7 @@ public class Tester {
         this.asyncHttpClient = asyncHttpClient;
         this.materializer = materializer;
         this.storage = system.actorOf();
-        this.countOfRequests = countOfRequests;
+        this.countOfRequests = Constants.countOfRequests;
 
     }
 
