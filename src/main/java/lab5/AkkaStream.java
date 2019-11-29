@@ -17,6 +17,7 @@ import akka.http.javadsl.server.Route;
 import akka.pattern.Patterns;
 import java.util.concurrent.CompletionStage;
 
+import static org.asynchttpclient.Dsl.asyncHttpClient;
 import org.asynchttpclient.AsyncHttpClient;
 import scala.concurrent.Future;
 import static akka.http.javadsl.server.PathMatchers.segment;
@@ -31,9 +32,8 @@ public class AkkaStream{
         final ActorMaterializer materializer = ActorMaterializer.create(system);
 
         final AsyncHttpClient asyncHttpClient = asyncHttpClient();
-
-        final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow =
-//        <вызов метода которому передаем Http, ActorSystem и ActorMaterializer>;
+        final Tester tester = new Tester(asyncHttpClient, system, materializer);
+        final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = tester.createRoute();
         final CompletionStage<ServerBinding> binding = http.bindAndHandle(
                 routeFlow,
                 ConnectHttp.toHost("localhost", 8080),
