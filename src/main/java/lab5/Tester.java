@@ -9,6 +9,7 @@ import org.asynchttpclient.AsyncHttpClient;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Optional;
 
 public class Tester {
     private final ActorMaterializer materializer;
@@ -31,7 +32,7 @@ public class Tester {
     }
 
     public UrlTest parseRequest(HttpRequest request){
-        
+        return new UrlTest(new Optional<String>())
 
     }
 
