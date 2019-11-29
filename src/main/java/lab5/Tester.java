@@ -24,7 +24,12 @@ public class Tester {
     }
 
     public Flow<HttpRequest, HttpResponse, NotUsed> createRoute(){
-        return Flow.of()
+        return Flow.of(HttpRequest.class)
+                .map()
+                .mapAsync()
+                .map();
     }
+
+    public UrlTest 
 
 }
