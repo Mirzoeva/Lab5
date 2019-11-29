@@ -31,7 +31,7 @@ public class AkkaStream{
         final ActorMaterializer materializer = ActorMaterializer.create(system);
 
         final AsyncHttpClient asyncHttpClient = asyncHttpClient();
-        
+
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow =
 //        <вызов метода которому передаем Http, ActorSystem и ActorMaterializer>;
         final CompletionStage<ServerBinding> binding = http.bindAndHandle(
