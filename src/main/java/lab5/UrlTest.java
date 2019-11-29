@@ -18,7 +18,7 @@ public class UrlTest implements Comparable<UrlTest>{
     public int getCount(){
         return count;
     }
-    
+
     @Override
     public int compareTo(UrlTest b){
         return this.url.compareTo(b.url) != 0 ?  this.url.compareTo(b.url) : this.count.compareTo(b.count);
