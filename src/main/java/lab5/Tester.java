@@ -7,6 +7,7 @@ import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
 import org.asynchttpclient.AsyncHttpClient;
 
+import javax.management.Query;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Optional;
@@ -32,7 +33,8 @@ public class Tester {
     }
 
     public UrlTest parseRequest(HttpRequest request){
-        return new UrlTest(new Optional<String>())
+        Query query = request.
+        return new UrlTest(new Optional<String> )
 
     }
 
