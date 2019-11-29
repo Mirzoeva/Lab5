@@ -1,9 +1,14 @@
 package lab5;
 
+import akka.NotUsed;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
 import akka.stream.ActorMaterializer;
+import akka.stream.javadsl.Flow;
 import org.asynchttpclient.AsyncHttpClient;
+
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
 public class Tester {
     private final ActorMaterializer materializer;
@@ -16,8 +21,10 @@ public class Tester {
         this.materializer = materializer;
         this.storage = system.actorOf();
         this.countOfRequests = Constants.countOfRequests;
-
     }
 
+    public Flow<HttpRequest, HttpResponse, NotUsed> createRoute(){
+        return Flow.of()
+    }
 
 }
