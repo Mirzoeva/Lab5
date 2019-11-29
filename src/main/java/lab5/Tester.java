@@ -9,11 +9,13 @@ public class Tester {
     private final ActorMaterializer materializer;
     private final ActorRef storage;
     private final AsyncHttpClient asyncHttpClient;
+    private final int countOfRequests;
 
     public Tester(AsyncHttpClient asyncHttpClient, ActorSystem system, ActorMaterializer materializer){
         this.asyncHttpClient = asyncHttpClient;
         this.materializer = materializer;
         this.storage = system.actorOf();
+        this.countOfRequests = countOfRequests;
 
     }
 
