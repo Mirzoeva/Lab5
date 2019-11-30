@@ -9,7 +9,7 @@ public class TestResult {
         this.avg = avg;
     }
 
-    public UrlTest qetTest(){
+    public UrlTest getTest(){
         return test;
     }
 

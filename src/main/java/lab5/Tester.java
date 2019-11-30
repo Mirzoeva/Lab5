@@ -33,7 +33,8 @@ public class Tester {
     }
 
     public UrlTest parseRequest(HttpRequest request){
-        Query query = request.
+        Query query = request.getUri().query();
+        
         return new UrlTest(new Optional<String> )
 
     }

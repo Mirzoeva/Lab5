@@ -27,7 +27,7 @@ public class StorageActor  extends AbstractActor {
 
                 })
                 .match(TestResult.class, msg -> {
-                    storage.put(msg.qetTest(), msg.getAvg());
+                    storage.put(msg.getTest(), msg.getAvg());
                 })
                 .build();
     }
