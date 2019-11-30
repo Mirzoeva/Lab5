@@ -1,5 +1,7 @@
 package lab5;
 
+import java.util.Optional;
+
 public class TestResult {
     private final UrlTest test;
     private final Long avg;
@@ -15,5 +17,9 @@ public class TestResult {
 
     public Long getAvg(){
         return avg;
+    }
+
+    public Optional<TestResult> get(){
+        return result.getAvg() != null ? Optional.of(result) : Optional.empty();
     }
 }
