@@ -40,10 +40,8 @@ public class Tester {
                 .mapAsync(countOfRequests, test ->
                      Patterns.ask(storage, test, Duration.ofSeconds(5))
                             .thenApply(o -> (TestResult)o)
-                            .thenCompose(result -> {
-                                return result.get().isPresent() ? CompletableFuture.completedFuture(result.get().get())
-                                        : runTest(test);
-                            }))
+                            .thenCompose(result -> result.get().isPresent() ?
+                                    CompletableFuture.completedFuture(result.get().get()) : runTest(test)))
                 .map(result -> {
                     storage.tell(result, ActorRef.noSender());
                     return HttpResponse.create()
