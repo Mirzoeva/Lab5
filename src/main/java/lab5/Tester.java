@@ -35,9 +35,8 @@ public class Tester {
     public UrlTest parseRequest(HttpRequest request){
         Query query = request.getUri().query();
         Optional<String> testUrl = query.get("testUrl");
-        Optional<String> count = query.get()
-
-        return new UrlTest(new Optional<String> )
+        Optional<String> count = query.get("count");
+        return new UrlTest(testUrl.get(), Integer.parseInt(count.get()));
 
     }
 
