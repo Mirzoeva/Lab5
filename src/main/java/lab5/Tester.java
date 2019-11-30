@@ -38,7 +38,7 @@ public class Tester {
         return Flow.of(HttpRequest.class)
                 .map(this::parseRequest)
                 .mapAsync(countOfRequests, test ->
-                     Patterns.ask(storage, test, Duration.ofSeconds(5))
+                     Patterns.ask(storage, test, Duration.ofMillis(5))
                             .thenApply(o -> (TestResult)o)
                             .thenCompose(result -> result.get().isPresent() ?
                                     CompletableFuture.completedFuture(result.get().get()) : runTest(test)))
