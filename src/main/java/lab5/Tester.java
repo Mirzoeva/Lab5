@@ -41,8 +41,7 @@ public class Tester {
                      Patterns.ask(storage, test, Duration.ofSeconds(5))
                             .thenApply(o -> (TestResult)o)
                             .thenCompose(result -> {
-                                Optional<TestResult> resOpt = result.get();
-                                return resOpt.isPresent() ? CompletableFuture.completedFuture(resOpt.get())
+                                return result.get().isPresent() ? CompletableFuture.completedFuture(result.get().get())
                                         : runTest(test);
                             }))
                 .map(result -> {
