@@ -14,10 +14,6 @@ import akka.util.ByteString;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.asynchttpclient.AsyncHttpClient;
-
-import javax.management.Query;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Collections;
@@ -34,7 +30,7 @@ public class Tester {
     public Tester(AsyncHttpClient asyncHttpClient, ActorSystem system, ActorMaterializer materializer){
         this.asyncHttpClient = asyncHttpClient;
         this.materializer = materializer;
-        this.storage = system.actorOf();
+        this.storage = system.actorOf(StorageActor.props());
         this.countOfRequests = Constants.countOfRequests;
     }
 
@@ -66,6 +62,11 @@ public class Tester {
                 .mapConcat(t -> Collections.nCopies(t.getCount(), t.getUrl()))
                 .mapAsync(countOfRequests, this::getRequestTime)
                 .toMat(Sink.fold(0L, Long::sum), Keep.right());
+
+        return Source.from(Collections.singleton(test))
+                .toMat(testSink, Keep.right())
+                .run(materializer)
+                .thenApply(sum -> new TestResult(test, sum/test.getCount()));
     }
 
     private CompletionStage<Long> getRequestTime(String url){
