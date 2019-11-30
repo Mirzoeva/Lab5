@@ -79,6 +79,6 @@ public class Tester {
         return Source.from(Collections.singleton(test))
                 .toMat(testSink, Keep.right())
                 .run(materializer)
-                .thenApply(sum -> new TestResult(test, sum/test.getCount()));
+                .thenApply(sum -> new TestResult(sum/test.getCount()));
     }
 }
