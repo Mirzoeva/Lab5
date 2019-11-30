@@ -4,11 +4,11 @@ import java.util.Optional;
 
 public class TestResult {
     private final UrlTest test;
-    private final Long avg;
+    private final Long middle;
 
     public TestResult(UrlTest test, Long avg){
         this.test = test;
-        this.avg = avg;
+        this.middle = avg;
     }
 
     public UrlTest getTest(){
@@ -16,7 +16,7 @@ public class TestResult {
     }
 
     public Long getAvg(){
-        return avg;
+        return middle;
     }
 
     public Optional<TestResult> get(){
