@@ -18,7 +18,9 @@ public class StorageActor  extends AbstractActor {
                 .match(UrlTest.class, {
 
                 })
-                .match(TestResult.class, )
+                .match(TestResult.class, test -> {
+                    getSender().tell(new );
+                } )
                 .build();
     }
 }
