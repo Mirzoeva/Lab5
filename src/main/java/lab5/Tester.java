@@ -27,13 +27,14 @@ public class Tester {
 
     public Flow<HttpRequest, HttpResponse, NotUsed> createRoute(){
         return Flow.of(HttpRequest.class)
-                .map()
+                .map(this::parseRequest)
                 .mapAsync()
                 .map();
     }
 
     public UrlTest parseRequest(HttpRequest request){
         Query query = request.getUri().query();
+        Optional<String> testUrl = query.get();
         
         return new UrlTest(new Optional<String> )
 
