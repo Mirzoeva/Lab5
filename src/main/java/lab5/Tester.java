@@ -37,16 +37,22 @@ public class Tester {
     public Flow<HttpRequest, HttpResponse, NotUsed> createRoute(){
         return Flow.of(HttpRequest.class)
                 .map(this::parseRequest)
-                .mapAsync(countOfRequests, test -> {
-                    return Patterns.ask(storage, test, Duration.ofSeconds(5))
+                .mapAsync(countOfRequests, test ->
+                     Patterns.ask(storage, test, Duration.ofSeconds(5))
                             .thenApply(o -> (ReturnUrlTestResult)o)
                             .thenCompose(result -> {
                                 Optional<TestResult> resOpt = result.get();
                                 return resOpt.isPresent() ? CompletableFuture.completedFuture(resOpt.get())
                                         : runTest(test);
-                            });
-                })
-                .map(this::saveAndCreateResponse);
+                            }))
+                .map(result -> {
+                    storage.tell(result, ActorRef.noSender());
+                    return HttpResponse.create()
+                            .withStatus(StatusCodes.OK)
+                            .withEntity(ContentTypes.APPLICATION_JSON, ByteString.fromString(
+                                    new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(result)
+                            ));
+                });
     }
 
     public UrlTest parseRequest(HttpRequest request){
@@ -60,7 +66,14 @@ public class Tester {
         final Sink<UrlTest, CompletionStage<Long>> testSink =
                 Flow.of(UrlTest.class)
                 .mapConcat(t -> Collections.nCopies(t.getCount(), t.getUrl()))
-                .mapAsync(countOfRequests, this::getRequestTime)
+                .mapAsync(countOfRequests, url -> {
+                    Instant requestStart = Instant.now();
+                    return asyncHttpClient.prepareGet(url).execute()
+                            .toCompletableFuture()
+                            .thenCompose(resp -> CompletableFuture.completedFuture(
+                                    Duration.between(requestStart, Instant.now()).getSeconds()
+                            ));
+                })
                 .toMat(Sink.fold(0L, Long::sum), Keep.right());
 
         return Source.from(Collections.singleton(test))
@@ -68,24 +81,4 @@ public class Tester {
                 .run(materializer)
                 .thenApply(sum -> new TestResult(test, sum/test.getCount()));
     }
-
-    private CompletionStage<Long> getRequestTime(String url){
-        Instant requestStart = Instant.now();
-        return asyncHttpClient.prepareGet(url).execute()
-                .toCompletableFuture()
-                .thenCompose(resp -> CompletableFuture.completedFuture(
-                        Duration.between(requestStart, Instant.now()).getSeconds()
-                ));
-
-    }
-
-    private HttpResponse saveAndCreateResponse(TestResult result) throws JsonProcessingException {
-        storage.tell(result, ActorRef.noSender());
-        return HttpResponse.create()
-                .withStatus(StatusCodes.OK)
-                .withEntity(ContentTypes.APPLICATION_JSON, ByteString.fromString(
-                        new ObjectMapper().writer().withDefaultPrettyPrinter().writeValueAsString(result)
-                ));
-    }
-
 }
