@@ -4,22 +4,22 @@ import java.util.Optional;
 
 public class TestResult {
     private final UrlTest test;
-    private final Long middle;
+    private final Long middleValue;
 
-    public TestResult(UrlTest test, Long avg){
+    public TestResult(UrlTest test, Long middleValue){
         this.test = test;
-        this.middle = avg;
+        this.middleValue = middleValue;
     }
 
     public UrlTest getTest(){
         return test;
     }
 
-    public Long getAvg(){
-        return middle;
+    public Long getMiddleValue(){
+        return middleValue;
     }
 
     public Optional<TestResult> get(){
-        return this.getAvg() != null ? Optional.of(this) : Optional.empty();
+        return this.getMiddleValue() != null ? Optional.of(this) : Optional.empty();
     }
 }
