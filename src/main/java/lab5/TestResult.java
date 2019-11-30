@@ -20,6 +20,6 @@ public class TestResult {
     }
 
     public Optional<TestResult> get(){
-        return result.getAvg() != null ? Optional.of(result) : Optional.empty();
+        return this.getAvg() != null ? Optional.of(this) : Optional.empty();
     }
 }

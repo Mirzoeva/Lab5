@@ -39,7 +39,7 @@ public class Tester {
                 .map(this::parseRequest)
                 .mapAsync(countOfRequests, test ->
                      Patterns.ask(storage, test, Duration.ofSeconds(5))
-                            .thenApply(o -> (ReturnUrlTestResult)o)
+                            .thenApply(o -> (TestResult)o)
                             .thenCompose(result -> {
                                 Optional<TestResult> resOpt = result.get();
                                 return resOpt.isPresent() ? CompletableFuture.completedFuture(resOpt.get())
@@ -81,5 +81,4 @@ public class Tester {
                 .run(materializer)
                 .thenApply(sum -> new TestResult(test, sum/test.getCount()));
     }
-
 }
