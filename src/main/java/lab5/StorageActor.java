@@ -1,6 +1,7 @@
 package lab5;
 
 import akka.actor.AbstractActor;
+import akka.actor.ActorRef;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -19,7 +20,8 @@ public class StorageActor  extends AbstractActor {
 
                 })
                 .match(TestResult.class, test -> {
-                    getSender().tell(new );
+                    getSender()
+                            .tell(new ReturnUrlTestResult(new UrlTestResult(test, storage.get(test))), ActorRef.noSender());
                 } )
                 .build();
     }
