@@ -25,7 +25,7 @@ import java.io.IOException;
 
 public class AkkaStream{
     public static void main(String[] args) throws IOException {
-        System.out.println("start!");
+        System.out.println(Constants.startMsg);
         ActorSystem system = ActorSystem.create("routes");
         final Http http = Http.get(system);
         final ActorMaterializer materializer = ActorMaterializer.create(system);
