@@ -20,14 +20,8 @@ public class StorageActor  extends AbstractActor {
     @Override
     public Receive createReceive(){
         return receiveBuilder()
-                .match(UrlTest.class, msg -> {
-                    getSender()
-                            .tell(new TestResult(msg, storage.get(msg)), ActorRef.noSender());
-
-                })
-                .match(TestResult.class, msg -> {
-                    storage.put(msg.getTest(), msg.getAvg());
-                })
+                .match(UrlTest.class, msg -> getSender().tell(new TestResult(msg, storage.get(msg)), ActorRef.noSender()))
+                .match(TestResult.class, msg -> storage.put(msg.getTest(), msg.getAvg()))
                 .build();
     }
 }
