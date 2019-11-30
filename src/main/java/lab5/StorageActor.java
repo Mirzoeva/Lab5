@@ -21,7 +21,7 @@ public class StorageActor  extends AbstractActor {
                 })
                 .match(TestResult.class, test -> {
                     getSender()
-                            .tell(new ReturnUrlTestResult(new UrlTestResult(test, storage.get(test))), ActorRef.noSender());
+                            .tell(new ReturnUrlTestResult(new TestResult(test, storage.get(test))), ActorRef.noSender());
                 } )
                 .build();
     }
