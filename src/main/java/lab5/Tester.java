@@ -28,7 +28,7 @@ public class Tester {
     public Flow<HttpRequest, HttpResponse, NotUsed> createRoute(){
         return Flow.of(HttpRequest.class)
                 .map(this::parseRequest)
-                .mapAsync()
+                .mapAsync(countOfRequests,)
                 .map();
     }
 
@@ -37,7 +37,8 @@ public class Tester {
         Optional<String> testUrl = query.get("testUrl");
         Optional<String> count = query.get("count");
         return new UrlTest(testUrl.get(), Integer.parseInt(count.get()));
-
     }
+
+    
 
 }
