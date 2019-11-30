@@ -2,6 +2,7 @@ package lab5;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
+import akka.actor.Props;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -12,17 +13,22 @@ public class StorageActor  extends AbstractActor {
     public StorageActor(){
         this.storage = new TreeMap<>();
     }
+    public static Props props(){
+        return Props.create(StorageActor.class);
+    }
 
     @Override
     public Receive createReceive(){
         return receiveBuilder()
-                .match(UrlTest.class, {
+                .match(UrlTest.class, msg -> {
+                    getSender()
+                            .tell(new ReturnUrlTestResult(
+                                    new TestResult(msg, storage.get(msg))), ActorRef.noSender());
 
                 })
-                .match(TestResult.class, test -> {
-                    getSender()
-                            .tell(new ReturnUrlTestResult(new TestResult(test, storage.get(test))), ActorRef.noSender());
-                } )
+                .match(TestResult.class, msg -> {
+                    storage.put(msg.qetTest(), msg.getAvg());
+                })
                 .build();
     }
 }
