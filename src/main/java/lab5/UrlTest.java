@@ -1,7 +1,5 @@
 package lab5;
 
-import javax.script.Invocable;
-
 public class UrlTest implements Comparable<UrlTest>{
     private final String url;
     private final Integer count;
